@@ -19,7 +19,7 @@ permissions:
 
 jobs:
   test:
-    runs-on: Anton
+    runs-on: self-hosted
 
     steps:
       - name: Setup repo
