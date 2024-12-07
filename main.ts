@@ -3,7 +3,8 @@
 import HelloWorldCommand from './infrastructure/commands/HelloWorldCommand.ts';
 
 const listOfCommands = [new HelloWorldCommand()];
-
+ 
+// deno-lint-ignore require-await
 async function getMessage(): Promise<string> {
   return '/hello'
 }
