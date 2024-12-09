@@ -1,5 +1,5 @@
 import { listOfCommands } from "@dndbot/infrastructure";
-import type { Queue } from "@dndbot/helpers";
+import type { Queue } from '../../helpers/index.ts';
 import type { IUser } from "./index.d.ts";
 
 export class User {
@@ -8,22 +8,22 @@ export class User {
   public _commandsQueue: Queue<string>;
   private _platform: string;
 
-  constructor({ id, username, commandsQueue, platform }: IUser) {
+  constructor({id, username, commandsQueue, platform}: IUser) {
     this._id = id;
     this._username = username;
     this._commandsQueue = commandsQueue;
     this._platform = platform;
   }
 
-  public get id() {
+  public get id(): string {
     return this._id;
   }
 
-  public get username() {
+  public get username(): string {
     return this._username;
   }
 
-  public get platform() {
+  public get platform(): string {
     return this._platform;
   }
 
@@ -33,11 +33,11 @@ export class User {
 
   public enqueueCommand(command: string) {
     const isValidCommand = listOfCommands.some(
-      (existingCommand) => command === existingCommand.getName(),
+      (existingCommand) => command === existingCommand.getName()
     );
 
     if (!isValidCommand) {
-      throw new Error(`Such command ${command} does not exist`);
+        throw new Error(`Such command ${command} does not exist`)
     }
 
     this._commandsQueue.enqueue(command);

@@ -1,5 +1,5 @@
 import { assertEquals } from "jsr:@std/assert";
-import { Queue } from "./queue.ts"; // Adjust the import path as necessary
+import { Queue } from "./index.ts"; // Adjust the import path as necessary
 
 Deno.test("Queue: isEmpty on an empty queue", () => {
   const queue = new Queue<number>();

@@ -16,16 +16,16 @@ export class Queue<T> {
     this.rear = null;
   }
 
-  isEmpty() {
+  isEmpty(): boolean {
     return this.front === null && this.rear === null;
   }
 
-  enqueue(newData: T) {
+  enqueue(newData: T): Node<T> | null {
     const newNode = new Node<T>(newData);
 
     if (this.rear === null) {
       this.front = this.rear = newNode;
-      return;
+      return null;
     }
 
     this.rear.next = newNode;
@@ -33,7 +33,7 @@ export class Queue<T> {
     return this.rear;
   }
 
-  dequeue() {
+  dequeue(): Node<T> | null {
     if (this.isEmpty()) {
       return null;
     }
@@ -46,14 +46,14 @@ export class Queue<T> {
     return temp;
   }
 
-  getFront() {
+  getFront(): T | null {
     if (this.isEmpty()) {
       return null;
     }
     return this.front!.data;
   }
 
-  getRear() {
+  getRear(): T | null {
     if (this.isEmpty()) {
       return null;
     }
