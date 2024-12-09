@@ -1,5 +1,5 @@
 {
-    "name": "@dndbot/helpers",
-    "version": "0.1.0",
-    "exports": "./index.ts"
+  "name": "@dndbot/helpers",
+  "version": "0.1.0",
+  "exports": "./index.ts"
 }

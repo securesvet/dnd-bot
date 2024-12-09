@@ -1,4 +1,4 @@
 type CommandMainInfo = {
-    command: string;
-    description: string;
-} 
+  command: string;
+  description: string;
+};

@@ -3,5 +3,5 @@
 import HelloWorldCommand from "./HelloWorldCommand.ts";
 
 export const listOfCommands = [
-    new HelloWorldCommand()
-]
+  new HelloWorldCommand(),
+];
