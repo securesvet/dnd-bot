@@ -1,0 +1,9 @@
+{
+  "name": "@dndbot/infrastructure",
+  "version": "0.1.0",
+  "exports": "./index.ts",
+  "tasks": {
+    "dev": "deno run --watch main.ts",
+    "start": "DEBUG=\"grammy*\" deno -EIN main.ts"
+  }
+}

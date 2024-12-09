@@ -1,5 +1,7 @@
 interface ICommand {
-  getAnswer(): AnswerType[];
+  getName(): string;
+  getReply(userQuery: string): AnswerType[];
+  getDescription(): string;
   isValidTrigger(text: string): boolean;
 }
 
