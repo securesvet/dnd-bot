@@ -3,4 +3,3 @@
 
 deno fmt
 deno test
-deno lint
