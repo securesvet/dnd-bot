@@ -40,13 +40,13 @@ Deno.test("Queue: dequeue until empty", () => {
   queue.dequeue();
   assertEquals(queue.isEmpty(), true, "Queue should be empty after all elements are dequeued");
   assertEquals(queue.getFront(), null, "Front should be null on an empty queue");
-  assertEquals(queue.getRear(), Number.MIN_VALUE, "Rear should return default value on empty queue");
+  assertEquals(queue.getRear(), null, "Rear should return null on empty queue");
 });
 
 Deno.test("Queue: getFront and getRear on empty queue", () => {
   const queue = new Queue<number>();
   assertEquals(queue.getFront(), null, "Front should return null on an empty queue");
-  assertEquals(queue.getRear(), Number.MIN_VALUE, "Rear should return default value on empty queue");
+  assertEquals(queue.getRear(), null, "Rear should return null on empty queue");
 });
 
 Deno.test("Queue: order is preserved", () => {

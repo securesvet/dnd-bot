@@ -54,7 +54,6 @@ export class Queue<T> {
     getFront()
     {
         if (this.isEmpty()) {
-            console.log("Queue is empty");
             return null;
         }
         return this.front!.data;
@@ -63,8 +62,7 @@ export class Queue<T> {
     getRear()
     {
         if (this.isEmpty()) {
-            console.log("Queue is empty");
-            return Number.MIN_VALUE;
+            return null;
         }
         return this.rear!.data;
     }
