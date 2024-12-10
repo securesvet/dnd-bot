@@ -33,12 +33,12 @@ for (const command of listOfCommands) {
       switch (true) {
         case Boolean(reply?.text):
           await ctx.reply(reply.text, {
-            reply_parameters: { message_id: ctx.msg.message_id }
+            reply_parameters: { message_id: ctx.msg.message_id },
           });
           break;
         case Boolean(reply?.image):
           await ctx.replyWithPhoto(reply.image, {
-            reply_parameters: { message_id: ctx.msg.message_id }
+            reply_parameters: { message_id: ctx.msg.message_id },
           });
           break;
         default:
