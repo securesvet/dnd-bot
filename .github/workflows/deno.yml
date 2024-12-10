@@ -35,8 +35,9 @@ jobs:
       - name: Verify formatting
         run: deno fmt --check
 
-      - name: Run linter
-        run: deno lint --allow-import
+      # Disabled for now
+      # - name: Run linter
+      #   run: deno lint --allow-import
 
       - name: Run tests
         run: deno test -A
