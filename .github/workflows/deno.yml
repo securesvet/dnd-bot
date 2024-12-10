@@ -33,8 +33,9 @@ jobs:
       - name: Verify formatting
         run: deno fmt --check
 
-      - name: Run linter
-        run: deno lint --allow-import
+      # still not working even after https://github.com/denoland/deno/issues/27318
+      # - name: Run linter
+      #   run: deno lint --allow-import
 
       - name: Run tests
         run: deno test -A
