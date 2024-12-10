@@ -1,0 +1,8 @@
+{
+  "name": "@dndbot/telegram-bot",
+  "version": "0.1.0",
+  "exports": "./telegram/main.ts",
+  "tasks": {
+    "telegram": "DEBUG=\"grammy*\" deno -EINR ./telegram/main.ts"
+  }
+}
