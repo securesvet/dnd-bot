@@ -1,6 +1,12 @@
-import { listOfCommands } from "@dndbot/infrastructure";
+import { listOfCommands } from "../commands/index.ts";
 import type { Queue } from "../../helpers/index.ts";
-import type { IUser } from "./index.d.ts";
+
+interface IUser {
+  id: string;
+  username: string;
+  commandsQueue: Queue<string>;
+  platform: string;
+}
 
 export class User {
   private _id: string;

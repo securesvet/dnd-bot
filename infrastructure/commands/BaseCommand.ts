@@ -9,6 +9,8 @@ export abstract class BaseCommand implements ICommand {
   getDescription(): string {
     return this.description;
   }
-  abstract isValidTrigger(text: string): boolean;
+  isValidTrigger(text: string): boolean {
+    return text.toLowerCase().includes(this.name);
+  }
   abstract getReply(userQuery?: string): AnswerType[];
 }
