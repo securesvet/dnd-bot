@@ -10,7 +10,7 @@ type CommandMainInfo = {
 // Create an instance of the `Bot` class and pass your bot token to it.
 let bot: Bot;
 try {
-  bot = new Bot(Deno.env.get("TELEGRAM_API_KEY")!);
+  bot = new Bot(Deno.env.get("TELEGRAM_API_KEY") as string);
 } catch (e) {
   throw new Error(`Cannot get TELERGAM_API_KEY env variable: ${e}`);
 }
