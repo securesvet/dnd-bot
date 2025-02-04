@@ -1,6 +1,7 @@
 {
   "version": "4",
   "specifiers": {
+    "jsr:@std/assert@*": "1.0.8",
     "jsr:@std/assert@1": "1.0.8",
     "jsr:@std/dotenv@*": "0.225.3",
     "jsr:@std/internal@^1.0.5": "1.0.5",
@@ -1477,40 +1478,6 @@
   "workspace": {
     "dependencies": [
       "jsr:@std/assert@1"
-    ],
-    "members": {
-      "server": {
-        "packageJson": {
-          "dependencies": [
-            "npm:@nestjs/cli@^10.4.9",
-            "npm:@nestjs/common@^10.4.15",
-            "npm:@nestjs/core@^10.4.15",
-            "npm:@nestjs/platform-express@^10.4.15",
-            "npm:@nestjs/schematics@^10.2.3",
-            "npm:@nestjs/testing@^10.4.15",
-            "npm:@types/express@5",
-            "npm:@types/jest@^29.5.14",
-            "npm:@types/node@^22.10.2",
-            "npm:@types/supertest@^6.0.2",
-            "npm:@typescript-eslint/eslint-plugin@^8.18.0",
-            "npm:@typescript-eslint/parser@^8.18.0",
-            "npm:eslint-config-prettier@^9.1.0",
-            "npm:eslint-plugin-prettier@^5.2.1",
-            "npm:eslint@^9.16.0",
-            "npm:jest@^29.7.0",
-            "npm:prettier@^3.4.2",
-            "npm:reflect-metadata@~0.2.2",
-            "npm:rxjs@^7.8.1",
-            "npm:source-map-support@~0.5.21",
-            "npm:supertest@7",
-            "npm:ts-jest@^29.2.5",
-            "npm:ts-loader@^9.5.1",
-            "npm:ts-node@^10.9.2",
-            "npm:tsconfig-paths@^4.2.0",
-            "npm:typescript@^5.7.2"
-          ]
-        }
-      }
-    }
+    ]
   }
 }
