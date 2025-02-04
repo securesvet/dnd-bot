@@ -1,6 +1,11 @@
 import "jsr:@std/dotenv/load";
-import { listOfCommands } from "@dndbot/infrastructure";
+import { listOfCommands } from "../../infrastructure/commands/index.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.33.0/mod.ts";
+
+type CommandMainInfo = {
+  command: string;
+  description: string;
+};
 
 // Create an instance of the `Bot` class and pass your bot token to it.
 let bot: Bot;
@@ -47,5 +52,9 @@ for (const command of listOfCommands) {
     }
   });
 }
+
+bot.catch((err) => {
+  console.error(err);
+});
 
 bot.start();

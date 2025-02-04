@@ -1,7 +1,9 @@
 {
   "tasks": {
     "dev": "deno run --watch ./bots/telegram/main.ts",
-    "telegram": "deno task --config ./bots/deno.json telegram"
+    "telegram": "deno task --config ./bots/deno.json telegram",
+    "website": "deno run --config ./website/package.json start",
+    "webserver": "deno run --config ./webserver/deno.json dev"
   },
   "imports": {
     "@std/assert": "jsr:@std/assert@1"

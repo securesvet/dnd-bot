@@ -2,7 +2,9 @@
 
 import type { BaseCommand } from "./BaseCommand.ts";
 import HelloWorldCommand from "./HelloWorldCommand.ts";
+import { RollCommand } from "./RollCommand.ts";
 
 export const listOfCommands: BaseCommand[] = [
   new HelloWorldCommand(),
+  new RollCommand(),
 ];
