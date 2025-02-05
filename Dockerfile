@@ -9,3 +9,5 @@ WORKDIR /app
 # RUN chown -R deno:deno /app
 
 COPY . .
+
+ENTRYPOINT [ "deno", "run", "telegram" ]
