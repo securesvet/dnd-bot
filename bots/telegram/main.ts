@@ -7,14 +7,10 @@ type CommandMainInfo = {
   description: string;
 };
 
-const isCI = Deno.env.get("GITHUB_ACTIONS") === "true";
-
 // Create an instance of the `Bot` class and pass your bot token to it.
 let bot: Bot;
 try {
-  const API_KEY = (isCI
-    ? Deno.env.get("TELEGRAM_PROD_KEY")
-    : Deno.env.get("TELEGRAM_TEST_KEY")) as string;
+  const API_KEY = Deno.env.get("TELEGRAM_API_KEY") as string;
   bot = new Bot(API_KEY);
 } catch (e) {
   throw new Error(`Cannot get TELERGAM_API_KEY env variable: ${e}`);
