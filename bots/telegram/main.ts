@@ -1,5 +1,5 @@
 import "jsr:@std/dotenv/load";
-import { listOfCommands } from "../../infrastructure/commands/index.ts";
+import { listOfCommands } from "../../infrastructure/commands/listOfCommands.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.33.0/mod.ts";
 import { retryWithBackoff } from "../../helpers/retryWithBackoff.ts";
 

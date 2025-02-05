@@ -1,4 +1,4 @@
-import { listOfCommands } from "../commands/index.ts";
+import { listOfCommands } from "../commands/listOfCommands.ts";
 import type { Queue } from "../../helpers/index.ts";
 
 interface IUser {
