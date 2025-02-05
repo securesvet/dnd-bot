@@ -1,6 +1,7 @@
 import "jsr:@std/dotenv/load";
 import { listOfCommands } from "../../infrastructure/commands/index.ts";
 import { Bot } from "https://deno.land/x/grammy@v1.33.0/mod.ts";
+import { retryWithBackoff } from "../../helpers/retryWithBackoff.ts";
 
 type CommandMainInfo = {
   command: string;
@@ -14,6 +15,10 @@ try {
   bot = new Bot(API_KEY);
 } catch (e) {
   throw new Error(`Cannot get TELERGAM_API_KEY env variable: ${e}`);
+}
+
+function safeApiCall<T>(fn: () => Promise<T>): Promise<T> {
+  return retryWithBackoff(fn); // Retries 5 times with backoff
 }
 
 // Setting commands and its descriptions
@@ -38,14 +43,14 @@ for (const command of listOfCommands) {
     for (const reply of replies) {
       switch (true) {
         case Boolean(reply?.text):
-          await ctx.reply(reply.text, {
+          await safeApiCall(() => ctx.reply(reply.text, {
             reply_parameters: { message_id: ctx.msg.message_id },
-          });
+          }));
           break;
         case Boolean(reply?.image):
-          await ctx.replyWithPhoto(reply.image, {
+          await safeApiCall(() => ctx.replyWithPhoto(reply.image, {
             reply_parameters: { message_id: ctx.msg.message_id },
-          });
+          }));
           break;
         default:
           console.warn("Unknown reply type:", reply);
@@ -55,7 +60,7 @@ for (const command of listOfCommands) {
 }
 
 bot.catch((err) => {
-  console.error(err);
+  console.error("Bot error:", err);
 });
 
 bot.start();
