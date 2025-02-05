@@ -43,14 +43,18 @@ for (const command of listOfCommands) {
     for (const reply of replies) {
       switch (true) {
         case Boolean(reply?.text):
-          await safeApiCall(() => ctx.reply(reply.text, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          }));
+          await safeApiCall(() =>
+            ctx.reply(reply.text, {
+              reply_parameters: { message_id: ctx.msg.message_id },
+            })
+          );
           break;
         case Boolean(reply?.image):
-          await safeApiCall(() => ctx.replyWithPhoto(reply.image, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          }));
+          await safeApiCall(() =>
+            ctx.replyWithPhoto(reply.image, {
+              reply_parameters: { message_id: ctx.msg.message_id },
+            })
+          );
           break;
         default:
           console.warn("Unknown reply type:", reply);
