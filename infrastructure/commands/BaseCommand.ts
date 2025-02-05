@@ -3,8 +3,7 @@ export abstract class BaseCommand implements ICommand {
   protected abstract name: string;
   protected abstract description: string;
 
-  getName(): string {
-    return this.name;
+  getName(): string { return this.name;
   }
   getDescription(): string {
     return this.description;
