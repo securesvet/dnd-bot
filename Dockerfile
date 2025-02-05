@@ -4,8 +4,8 @@ FROM denoland/deno:2.1.9
 WORKDIR /app
 
 # Prefer not to run as root.
-USER deno
+# USER deno
 
-RUN cd /app
+# RUN chown -R deno:deno /app
 
 COPY . .
