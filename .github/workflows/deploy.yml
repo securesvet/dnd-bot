@@ -37,9 +37,10 @@ jobs:
 
       - name: Deploy on VPS using Docker Compose
         run: |
-          ssh $VPS_USER@$VPS_HOST << 'EOF'
-            cd /home/$VPS_USER/dnd-bot-app
-            git pull origin main
-            docker compose pull
-            docker compose up -d --remove-orphans
+          ssh ${{ secrets.VPS_USER }}@$VPS_HOST << 'EOF'
+            # Check if the directory exists, if not, clone the repo
+            docker pull ${{ secrets.DOCKERHUB_USERNAME }}/dnd-bot-app:latest
+            docker stop dnd-bot-app || true
+            docker rm dnd-bot-app || true
+            docker run -d --name dnd-bot-app --env-file /home/${{ secrets.VPS_USER }}/.env ${{ secrets.DOCKERHUB_USERNAME }}/dnd-bot-app:latest
           EOF
