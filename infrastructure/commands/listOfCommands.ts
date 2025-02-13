@@ -1,4 +1,5 @@
 import type { BaseCommand } from "./BaseCommand.ts";
+import { CheckCommand } from "./CheckCommand.ts";
 import HelloWorldCommand from "./HelloWorldCommand.ts";
 import { RollCommand } from "./RollCommands/RollCommand.ts";
 import { RollD20Command } from "./RollCommands/RollD20Command.ts";
@@ -9,4 +10,5 @@ export const listOfCommands: BaseCommand[] = [
   new HelloWorldCommand(),
   new RollCommand(),
   new RollD20Command(),
+  new CheckCommand(),
 ];
