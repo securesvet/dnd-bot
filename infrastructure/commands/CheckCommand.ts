@@ -19,7 +19,7 @@ export class CheckCommand extends BaseCommand {
         `Окей, ты хочешь пройти проверку и узнать, получится ли у тебя:\n<i>${
           this.arguments.join(" ")
         }</i>\nСложность: <b>${this.difficulty}</b>\nУ тебя выпало: <b>${this.userDifficulty}</b>\nРезультат: ${
-          this.difficulty === this.userDifficulty ? "Success" : "Failure"
+          this.difficulty <= this.userDifficulty ? "Success" : "Failure"
         }\nОписание: <b>${"Пока не сделал ИИ сюда, друг"}</b>`,
     }];
   }
