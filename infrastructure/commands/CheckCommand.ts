@@ -8,8 +8,8 @@ export class CheckCommand extends BaseCommand {
   description: string =
     "Пройди проверку, сможет ли твой герой сделать определенное действие";
 
-    private _userDifficulty: number = this.getRandomD20();
-    private _difficulty: number = this.getRandomD20();
+  private _userDifficulty: number = this.getRandomD20();
+  private _difficulty: number = this.getRandomD20();
 
   private set difficulty(value: number) {
     this._difficulty = value;
@@ -24,7 +24,7 @@ export class CheckCommand extends BaseCommand {
   private get userDifficulty(): number {
     this._userDifficulty = this.getRandomD20();
     return this._userDifficulty;
-  };
+  }
   override async getReply(): Promise<AnswerType[]> {
     if (this.arguments.length === 0) {
       return [{ text: "Please provide a question." }];
