@@ -19,15 +19,19 @@ export class CheckCommand extends BaseCommand {
     const adminPrompt =
       `Ты мастер игры ДНД, тебя спрашивают, сможет ли герой пройти проверку. Красочно опиши. Никаких дополнительных комментариев не требуется.`;
     const isSuccess = this.difficulty <= this.userDifficulty;
-    const admingPromptSuccessOrFailureText = isSuccess ? "Герой проходит проверку" : "Герой не проходит проверку"
+    const admingPromptSuccessOrFailureText = isSuccess
+      ? "Герой проходит проверку"
+      : "Герой не проходит проверку";
     let gptReply: string | null;
     try {
-    gptReply = await getChatGPTReply({
-      adminPrompt: adminPrompt + admingPromptSuccessOrFailureText,
-      userPrompt: this.arguments.join(" "),
-    });} catch (error) {
+      gptReply = await getChatGPTReply({
+        adminPrompt: adminPrompt + admingPromptSuccessOrFailureText,
+        userPrompt: this.arguments.join(" "),
+      });
+    } catch (error) {
       console.error(error);
-      gptReply = 'Слушай, я не знаю, У меня закончились мозги, надо подождать немного'
+      gptReply =
+        "Слушай, я не знаю, У меня закончились мозги, надо подождать немного";
     }
     return [{
       text:
