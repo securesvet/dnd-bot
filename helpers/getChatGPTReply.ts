@@ -26,14 +26,15 @@ export async function getChatGPTReply(
       apiKey: Deno.env.get("OPEANAI_API_KEY") as string,
       baseURL: "https://api.aimlapi.com/v1",
     });
+  response = await openai.chat.completions.create(payloadQuery);
   } catch (error) {
     console.log("Using the reserved API key", error);
     openai = new OpenAI({
       apiKey: Deno.env.get("RESERVE_OPENAI_API_KEY") as string,
       baseURL: "https://api.aimlapi.com/v1",
     });
+  response = await openai.chat.completions.create(payloadQuery);
   }
 
-  response = await openai.chat.completions.create(payloadQuery);
   return response.choices[0].message.content;
 }
