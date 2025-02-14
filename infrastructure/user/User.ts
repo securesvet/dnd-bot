@@ -39,7 +39,7 @@ export class User {
 
   public enqueueCommand(command: string) {
     const isValidCommand = listOfCommands.some(
-      (existingCommand) => command === existingCommand.getName(),
+      (existingCommand) => command === existingCommand.name,
     );
 
     if (!isValidCommand) {
