@@ -8,9 +8,23 @@ export class CheckCommand extends BaseCommand {
   description: string =
     "Пройди проверку, сможет ли твой герой сделать определенное действие";
 
-  private difficulty = getRandomInRange(1, 20);
+  private _userDifficulty: number = this.getRandomD20();
+  private _difficulty: number = this.getRandomD20();
 
-  private userDifficulty: number = getRandomInRange(1, 20);
+  private set difficulty(value: number) {
+    this._difficulty = value;
+  }
+  private get difficulty(): number {
+    this._difficulty = this.getRandomD20();
+    return this._difficulty;
+  }
+  private set userDifficulty(value: number) {
+    this._userDifficulty = value;
+  }
+  private get userDifficulty(): number {
+    this._userDifficulty = this.getRandomD20();
+    return this._userDifficulty;
+  }
   override async getReply(): Promise<AnswerType[]> {
     if (this.arguments.length === 0) {
       return [{ text: "Please provide a question." }];
@@ -40,5 +54,9 @@ export class CheckCommand extends BaseCommand {
           this.difficulty <= this.userDifficulty ? "Success" : "Failure"
         }\nОписание: <b>${gptReply}</b>`,
     }];
+  }
+
+  private getRandomD20(): number {
+    return getRandomInRange(1, 20);
   }
 }
