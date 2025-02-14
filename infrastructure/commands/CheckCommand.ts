@@ -7,7 +7,7 @@ export class CheckCommand extends BaseCommand {
   name: string = "check";
   description: string =
     "Пройди проверку, сможет ли твой герой сделать определенное действие";
-  
+
   private userDifficulty: number = this.getRandomD20();
   private difficulty: number = this.getRandomD20();
   override async getReply(): Promise<AnswerType[]> {
