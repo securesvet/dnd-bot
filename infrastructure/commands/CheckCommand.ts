@@ -41,5 +41,4 @@ export class CheckCommand extends BaseCommand {
         }\nОписание: <b>${gptReply}</b>`,
     }];
   }
-
 }
