@@ -13,8 +13,8 @@ export class CreateMemeCommand extends BaseCommand {
 
   private async generateImage(): Promise<string> {
     const argsSplit = this.arguments.join(" ").split("|");
-    const topText = argsSplit[0].trim() || "";
-    const bottomText = argsSplit[1].trim() || "";
+    const topText = argsSplit[0] || "";
+    const bottomText = argsSplit[1] || "";
     const templates = await this.getAvailableTemplates();
     const random = templates[Math.floor(Math.random() * templates.length)];
     return `https://api.memegen.link/images/${random}/${topText}/${bottomText}.png?font=impact`;
