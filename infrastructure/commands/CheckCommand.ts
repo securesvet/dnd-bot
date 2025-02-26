@@ -10,11 +10,11 @@ export class CheckCommand extends BaseCommand {
 
   private userDifficulty: number = this.getRandomD20();
   private difficulty: number = this.getRandomD20();
-  override async getReply(): Promise<AnswerType[]> {
+  override async getReply(): Promise<AnswerType> {
     this.difficulty = this.getRandomD20();
     this.userDifficulty = this.getRandomD20();
     if (this.arguments.length === 0) {
-      return [{ text: "Please provide a question." }];
+      return { text: "Please provide a question." };
     }
     const adminPrompt =
       `Ты мастер игры ДНД, тебя спрашивают, сможет ли герой пройти проверку. Красочно опиши. Никаких дополнительных комментариев не требуется.`;
@@ -33,14 +33,14 @@ export class CheckCommand extends BaseCommand {
       gptReply =
         "Слушай, я не знаю, У меня закончились мозги, надо подождать немного";
     }
-    return [{
+    return {
       text:
         `Окей, ты хочешь пройти проверку и узнать, получится ли у тебя:\n<i>${
           this.arguments.join(" ")
         }</i>\nСложность: <b>${this.difficulty}</b>\nУ тебя выпало: <b>${this.userDifficulty}</b>\nРезультат: ${
           this.difficulty <= this.userDifficulty ? "Success" : "Failure"
         }\nОписание: <b>${gptReply}</b>`,
-    }];
+    };
   }
 
   private getRandomD20(): number {
