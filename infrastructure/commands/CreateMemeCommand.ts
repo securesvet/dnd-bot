@@ -8,7 +8,9 @@ export class CreateMemeCommand extends BaseCommand {
   private async getAvailableTemplates(): Promise<string[]> {
     const response = await fetch("https://api.memegen.link/templates");
     const json = await response.json();
-    return json.map((template: { id: string }) => template.id);
+    //TODO: ADD MULTIPLE LINES
+    return json.filter((template: { lines: number }) => template.lines === 2)
+      .map((template: { id: string }) => template.id);
   }
 
   private async generateImage(): Promise<string> {
