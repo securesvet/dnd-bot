@@ -4,6 +4,7 @@ import HelloWorldCommand from "./HelloWorldCommand.ts";
 import { RollCommand } from "./RollCommands/RollCommand.ts";
 import { RollD20Command } from "./RollCommands/RollD20Command.ts";
 import { StartCommand } from "./StartCommand.ts";
+import { CreateMemeCommand } from "./CreateMemeCommand.ts";
 
 export const listOfCommands: BaseCommand[] = [
   new StartCommand(),
@@ -11,4 +12,5 @@ export const listOfCommands: BaseCommand[] = [
   new RollCommand(),
   new RollD20Command(),
   new CheckCommand(),
+  new CreateMemeCommand(),
 ];

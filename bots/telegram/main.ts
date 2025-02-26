@@ -49,26 +49,24 @@ for (const command of listOfCommands) {
   bot.command(command.name, async (ctx) => {
     const userQuery = ctx.message?.text || "";
     command.userQuery = userQuery;
-    const replies = await command.getReply();
-    for (const reply of replies) {
-      switch (true) {
-        case Boolean(reply?.text):
-          await safeApiCall(() =>
-            ctx.replyWithHTML(reply.text, {
-              reply_parameters: { message_id: ctx.msg.message_id },
-            })
-          );
-          break;
-        case Boolean(reply?.image):
-          await safeApiCall(() =>
-            ctx.replyWithPhoto(reply.image, {
-              reply_parameters: { message_id: ctx.msg.message_id },
-            })
-          );
-          break;
-        default:
-          console.warn("Unknown reply type:", reply);
-      }
+    const reply = await command.getReply();
+    switch (true) {
+      case Boolean(reply?.text):
+        await safeApiCall(() =>
+          ctx.replyWithHTML(reply.text, {
+            reply_parameters: { message_id: ctx.msg.message_id },
+          })
+        );
+        break;
+      case Boolean(reply?.image):
+        await safeApiCall(() =>
+          ctx.replyWithPhoto(reply.image, {
+            reply_parameters: { message_id: ctx.msg.message_id },
+          })
+        );
+        break;
+      default:
+        console.warn("Unknown reply type:", reply);
     }
   });
 }

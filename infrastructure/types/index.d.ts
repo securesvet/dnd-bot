@@ -1,5 +1,5 @@
 interface ICommand {
-  getReply(userQuery: string): Promise<AnswerType[]> | AnswerType[];
+  getReply(userQuery: string): Promise<AnswerType> | AnswerType;
   isValidTrigger(text: string): boolean;
 }
 

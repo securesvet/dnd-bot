@@ -18,7 +18,7 @@ export abstract class BaseCommand implements ICommand {
     this._userQuery = query;
     if (query) this.parseArguments(query); // Automatically parse arguments
   }
-  abstract getReply(): Promise<AnswerType[]> | AnswerType[];
+  abstract getReply(): Promise<AnswerType> | AnswerType;
   isValidTrigger(text: string): boolean {
     return text.toLowerCase().includes(this.name);
   }
