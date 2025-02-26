@@ -35,6 +35,5 @@ export async function getChatGPTReply(
     });
     response = await openai.chat.completions.create(payloadQuery);
   }
-
   return response.choices[0].message.content;
 }
