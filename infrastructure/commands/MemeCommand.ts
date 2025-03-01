@@ -1,7 +1,7 @@
 import { BaseCommand } from "./BaseCommand.ts";
 
-export class CreateMemeCommand extends BaseCommand {
-  name: string = "creatememe";
+export class MemeCommand extends BaseCommand {
+  name: string = "meme";
   description: string =
     "Create a meme with the provided text. Use | to separate the top and bottom text";
 

@@ -1,6 +1,6 @@
 import { BaseCommand } from "./BaseCommand.ts";
 
-export default class HelloWorldCommand extends BaseCommand {
+export class HelloWorldCommand extends BaseCommand {
   description: string = "Command greets the user";
   name: string = "hello";
 

@@ -1,5 +1,5 @@
 import "jsr:@std/dotenv/load";
-import { listOfCommands } from "../../infrastructure/commands/listOfCommands.ts";
+import { createCommandsForChatSession } from "../../infrastructure/commands/createCommandsForChatSession.ts";
 import { Bot, type Context } from "https://deno.land/x/grammy@v1.35.0/mod.ts";
 import { safeApiCall } from "../../helpers/safeApiCall.ts";
 import {
@@ -32,44 +32,53 @@ bot.api.config.use(parseMode("MarkdownV2"));
 
 // Setting commands and its descriptions
 
-const commandsWithDescription: CommandMainInfo[] = [];
+// Function to create commands dynamically per user session
+bot.use(async (ctx, next) => {
+  if (!ctx.from) return next(); // Ensure user exists
 
-for (const command of listOfCommands) {
-  commandsWithDescription.push({
+  const userId = ctx.from.id.toString(); // Convert Telegram user ID to string
+  const userName = ctx.from.username?.toString() ?? "";
+  const commands = createCommandsForChatSession({
+    chatId: userId, name: userName,});
+
+  // Set Telegram bot commands dynamically
+  const commandsWithDescription: CommandMainInfo[] = commands.map((command) => ({
     command: command.name,
     description: command.description,
-  });
-}
+  }));
 
-await bot.api.setMyCommands(commandsWithDescription);
+  await bot.api.setMyCommands(commandsWithDescription);
 
-// Registering listeners
+  // Registering listeners dynamically per user
+  for (const command of commands) {
+    bot.command(command.name, async (ctx) => {
+      const userQuery = ctx.message?.text || "";
+      command.userQuery = userQuery;
+      const reply = await command.getReply();
 
-for (const command of listOfCommands) {
-  bot.command(command.name, async (ctx) => {
-    const userQuery = ctx.message?.text || "";
-    command.userQuery = userQuery;
-    const reply = await command.getReply();
-    switch (true) {
-      case Boolean(reply?.text):
-        await safeApiCall(() =>
-          ctx.replyWithHTML(reply.text, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          })
-        );
-        break;
-      case Boolean(reply?.image):
-        await safeApiCall(() =>
-          ctx.replyWithPhoto(reply.image, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          })
-        );
-        break;
-      default:
-        console.warn("Unknown reply type:", reply);
-    }
-  });
-}
+      switch (true) {
+        case Boolean(reply?.text):
+          await safeApiCall(() =>
+            ctx.replyWithHTML(reply.text, {
+              reply_parameters: { message_id: ctx.msg.message_id },
+            })
+          );
+          break;
+        case Boolean(reply?.image):
+          await safeApiCall(() =>
+            ctx.replyWithPhoto(reply.image, {
+              reply_parameters: { message_id: ctx.msg.message_id },
+            })
+          );
+          break;
+        default:
+          console.warn("Unknown reply type:", reply);
+      }
+    });
+  }
+
+  return next();
+});
 
 bot.catch((err) => {
   console.error("Bot error:", err);

@@ -1,8 +1,18 @@
-export abstract class BaseCommand implements ICommand {
+import type { IChat } from "../chat/chat.ts";
+
+export abstract class BaseCommand implements ICommand, IChat {
+  constructor(chatInfo: IChat) {
+    this._chatId = chatInfo.chatId;
+  }
+
+  private _chatId: string;
   static commandPrefix: string = "/";
   private _arguments: string[] = [];
   private _userQuery: string | null = null;
 
+  get chatId(): string {
+    return this._chatId;
+  }
   get arguments(): string[] {
     return this._arguments;
   }
