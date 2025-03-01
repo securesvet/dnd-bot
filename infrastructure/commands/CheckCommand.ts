@@ -17,7 +17,7 @@ export class CheckCommand extends BaseCommand {
       return { text: "Please provide a question." };
     }
     const adminPrompt =
-      `Ты мастер игры ДНД, тебя спрашивают, сможет ли герой пройти проверку. Красочно опиши. Никаких дополнительных комментариев не требуется.`;
+      `Ты мастер игры ДНД, тебя спрашивают, сможет ли герой пройти проверку. Красочно опиши. Никаких дополнительных комментариев не требуется. Сложность: ${this.difficulty}, игроку выпало: ${this.userDifficulty}.`;
     const isSuccess = this.difficulty <= this.userDifficulty;
     const admingPromptSuccessOrFailureText = isSuccess
       ? "Герой проходит проверку"

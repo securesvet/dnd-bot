@@ -39,10 +39,14 @@ bot.use(async (ctx, next) => {
   const userId = ctx.from.id.toString(); // Convert Telegram user ID to string
   const userName = ctx.from.username?.toString() ?? "";
   const commands = createCommandsForChatSession({
-    chatId: userId, name: userName,});
+    chatId: userId,
+    name: userName,
+  });
 
   // Set Telegram bot commands dynamically
-  const commandsWithDescription: CommandMainInfo[] = commands.map((command) => ({
+  const commandsWithDescription: CommandMainInfo[] = commands.map((
+    command,
+  ) => ({
     command: command.name,
     description: command.description,
   }));
