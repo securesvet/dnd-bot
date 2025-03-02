@@ -1,9 +1,12 @@
 import { BaseRollCommand } from "./BaseRollCommand.ts";
 
 export class RollD20Command extends BaseRollCommand {
-  name = "rolld20";
+  get name(): string {
+    return "rolld20";
+  }
   edges = 20;
-  override getReply(_userQuery?: string): AnswerType {
+  override getReply(): AnswerType {
+    console.log(this.edges);
     const dice = Math.floor(Math.random() * this.edges) + 1;
     if (dice === 20) {
       return { text: "Critical hit! 🎉 You rolled 20!" };

@@ -10,7 +10,7 @@ export abstract class BaseRollCommand extends BaseCommand
   get description(): string {
     return `Roll a dice (1-${this.edges})`;
   }
-  getReply(_userQuery?: string): AnswerType {
+  getReply(): AnswerType {
     const dice = Math.floor(Math.random() * this.edges) + 1;
     return { text: `You rolled ${dice}` };
   }

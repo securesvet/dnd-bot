@@ -4,13 +4,17 @@ import { getRandomInRange } from "../../helpers/getRandomInRange.ts";
 import { getChatGPTReply } from "../../helpers/getChatGPTReply.ts";
 
 export class CheckCommand extends BaseCommand {
-  name: string = "check";
-  description: string =
-    "Пройди проверку, сможет ли твой герой сделать определенное действие";
+  get name(): string {
+    return "check";
+  }
+  get description(): string {
+    return "Пройди проверку, сможет ли твой герой сделать определенное действие";
+  }
 
   private userDifficulty: number = this.getRandomD20();
   private difficulty: number = this.getRandomD20();
-  override async getReply(): Promise<AnswerType> {
+
+  async getReply(): Promise<AnswerType> {
     this.difficulty = this.getRandomD20();
     this.userDifficulty = this.getRandomD20();
     if (this.arguments.length === 0) {

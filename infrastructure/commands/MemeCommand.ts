@@ -1,9 +1,13 @@
 import { BaseCommand } from "./BaseCommand.ts";
 
 export class MemeCommand extends BaseCommand {
-  name: string = "meme";
-  description: string =
-    "Create a meme with the provided text. Use | to separate the top and bottom text";
+  get name(): string {
+    return "meme";
+  }
+
+  get description(): string {
+    return "Create a meme with the provided text. Use | to separate the top and bottom text";
+  }
 
   private async getAvailableTemplates(): Promise<string[]> {
     const response = await fetch("https://api.memegen.link/templates");

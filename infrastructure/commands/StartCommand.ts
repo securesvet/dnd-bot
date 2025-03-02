@@ -10,7 +10,7 @@ export class StartCommand extends BaseCommand {
   getReply(): AnswerType {
     return {
       text:
-        `Hello, ${this.chatId} This bot is used to play fun games for a group of people!  🥳\nTry “Alias” or “The Spy” for instance 🕵️‍♀️\nYou can play using one or multiple phones📱`,
+        `Hello, ${this.chatInfo.username}\nThis bot is used to play fun games for a group of people!  🥳\nTry “Alias” or “The Spy” for instance 🕵️‍♀️\nYou can play using one or multiple phones📱`,
     };
   }
 }

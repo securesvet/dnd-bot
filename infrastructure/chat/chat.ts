@@ -1,6 +1,9 @@
 export interface IChat {
   chatId: string;
-  name: string;
+  username: string;
+  firstName: string;
+  secondName: string;
+  userQuery: string | null;
 }
 
 interface IGroupChat {
