@@ -1,10 +1,13 @@
 import { BaseCommand } from "./BaseCommand.ts";
 
-export default class HelloWorldCommand extends BaseCommand {
-  description: string = "Command greets the user";
-  name: string = "hello";
-
-  public getReply(): AnswerType {
-    return { text: "Hello!" };
+export class HelloWorldCommand extends BaseCommand {
+  get description(): string {
+    return "Command greets the user";
+  }
+  get name(): string {
+    return "hello";
+  }
+  getReply(): AnswerType {
+    return { text: `Hello, ${this.chatInfo.firstName}!` };
   }
 }
