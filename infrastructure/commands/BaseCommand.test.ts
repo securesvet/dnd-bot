@@ -1,4 +1,7 @@
-import { assertEquals, assertArrayIncludes } from "https://deno.land/std@0.214.0/assert/mod.ts";
+import {
+  assertArrayIncludes,
+  assertEquals,
+} from "https://deno.land/std@0.214.0/assert/mod.ts";
 import { BaseCommand } from "./BaseCommand.ts"; // Adjust path as needed
 import type { AnswerType } from "./types.ts";
 import type { IChat } from "../chat/chat.ts";
@@ -15,11 +18,16 @@ class TestCommand extends BaseCommand {
     console.log(this.arguments);
   }
   getReply(): AnswerType {
-    return { text: "Test reply"};
+    return { text: "Test reply" };
   }
 
   getUserInfo(_userId: string) {
-    return { id: "123", username: "testuser", firstName: "Test", lastName: "User" };
+    return {
+      id: "123",
+      username: "testuser",
+      firstName: "Test",
+      lastName: "User",
+    };
   }
 
   getChatMembers(_chatId: string) {
@@ -63,7 +71,10 @@ Deno.test("getUserInfo returns correct user data", async () => {
 Deno.test("getChatMembers returns correct chat members", async () => {
   const command = new TestCommand(mockChatInfo);
   const members = await command.getChatMembers("chat123");
-  
+
   assertEquals(members.length, 2);
-  assertArrayIncludes(members.map(m => m.username), ["testuser1", "testuser2"]);
+  assertArrayIncludes(members.map((m) => m.username), [
+    "testuser1",
+    "testuser2",
+  ]);
 });

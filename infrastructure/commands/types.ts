@@ -16,5 +16,4 @@ type ImageTrait = {
   image: string;
 };
 
-
-export type {ICommand, AnswerType, AnswerAllTraitType, TextTrait, ImageTrait};
+export type { AnswerAllTraitType, AnswerType, ICommand, ImageTrait, TextTrait };

@@ -1,6 +1,10 @@
 import "jsr:@std/dotenv/load";
 import { createCommandsForChatSession } from "../../infrastructure/commands/createCommandsForChatSession.ts";
-import { Bot, MemorySessionStorage, type Context } from "https://deno.land/x/grammy@v1.35.0/mod.ts";
+import {
+  Bot,
+  type Context,
+  MemorySessionStorage,
+} from "https://deno.land/x/grammy@v1.35.0/mod.ts";
 import { safeApiCall } from "../../helpers/safeApiCall.ts";
 import {
   hydrateReply,
@@ -51,7 +55,7 @@ const commands = createCommandsForChatSession({
   userQuery: null,
 });
 
-// Set Telegram bot commands 
+// Set Telegram bot commands
 const commandsPlaceholderWithDescription: CommandMainInfo[] = commands.map((
   command,
 ) => ({

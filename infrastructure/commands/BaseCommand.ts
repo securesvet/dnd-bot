@@ -27,7 +27,7 @@ export abstract class BaseCommand implements ICommand {
     if (
       parts.length >= 2 && BaseCommand.isValidCommand(parts[0])
     ) {
-      this._arguments =  parts.slice(1); // Store all parts after the command name
+      this._arguments = parts.slice(1); // Store all parts after the command name
     }
   }
 }
