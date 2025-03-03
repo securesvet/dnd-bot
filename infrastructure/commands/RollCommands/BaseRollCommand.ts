@@ -1,4 +1,5 @@
 import { BaseCommand } from "../BaseCommand.ts";
+import type { AnswerType, ICommand } from "../types.ts";
 
 interface IBaseRollCommand extends ICommand {
   edges: number;
