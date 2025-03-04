@@ -3,8 +3,8 @@ import type { IChat } from "../chat/chat.ts";
 import type { AnswerType } from "./types.ts";
 
 export class StartCommand extends BaseCommand {
-  public name: string = "start";
-  public description: string = "Start the bot";
+  protected name: string = "start";
+  protected description: string = "Start the bot";
   constructor(chatInfo: IChat) {
     super(chatInfo);
   }

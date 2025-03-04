@@ -5,8 +5,8 @@ import { getChatGPTReply } from "../../helpers/getChatGPTReply.ts";
 import type { AnswerType } from "./types.ts";
 
 export class CheckCommand extends BaseCommand {
-  protected override name = "check";
-  protected override description =
+  protected name = "check";
+  protected description =
     "Пройди проверку, сможет ли твой герой сделать определенное действие";
   private userDifficulty: number = this.getRandomD20();
   private difficulty: number = this.getRandomD20();
