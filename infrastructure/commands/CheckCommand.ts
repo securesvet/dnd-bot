@@ -2,15 +2,12 @@ import "jsr:@std/dotenv/load";
 import { BaseCommand } from "./BaseCommand.ts";
 import { getRandomInRange } from "../../helpers/getRandomInRange.ts";
 import { getChatGPTReply } from "../../helpers/getChatGPTReply.ts";
+import type { AnswerType } from "./types.ts";
 
 export class CheckCommand extends BaseCommand {
-  get name(): string {
-    return "check";
-  }
-  get description(): string {
-    return "Пройди проверку, сможет ли твой герой сделать определенное действие";
-  }
-
+  protected override name = "check";
+  protected override description =
+    "Пройди проверку, сможет ли твой герой сделать определенное действие";
   private userDifficulty: number = this.getRandomD20();
   private difficulty: number = this.getRandomD20();
 

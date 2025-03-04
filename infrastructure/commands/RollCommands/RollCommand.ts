@@ -1,8 +1,6 @@
 import { BaseRollCommand } from "./BaseRollCommand.ts";
 
 export class RollCommand extends BaseRollCommand {
-  get name(): string {
-    return "roll";
-  }
-  edges: number = 100;
+  public name = "roll";
+  protected edges: number = 100;
 }

@@ -1,13 +1,8 @@
 import { BaseCommand } from "../BaseCommand.ts";
-import type { AnswerType, ICommand } from "../types.ts";
+import type { AnswerType } from "../types.ts";
 
-interface IBaseRollCommand extends ICommand {
-  edges: number;
-}
-
-export abstract class BaseRollCommand extends BaseCommand
-  implements IBaseRollCommand {
-  abstract edges: number;
+export abstract class BaseRollCommand extends BaseCommand {
+  protected abstract edges: number;
   get description(): string {
     return `Roll a dice (1-${this.edges})`;
   }
