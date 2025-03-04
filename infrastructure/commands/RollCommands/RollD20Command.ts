@@ -1,12 +1,10 @@
+import type { AnswerType } from "../types.ts";
 import { BaseRollCommand } from "./BaseRollCommand.ts";
 
 export class RollD20Command extends BaseRollCommand {
-  get name(): string {
-    return "rolld20";
-  }
-  edges = 20;
+  protected name = "rolld20";
+  protected edges = 20;
   override getReply(): AnswerType {
-    console.log(this.edges);
     const dice = Math.floor(Math.random() * this.edges) + 1;
     if (dice === 20) {
       return { text: "Critical hit! 🎉 You rolled 20!" };

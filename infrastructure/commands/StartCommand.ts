@@ -1,9 +1,10 @@
-import type { IChat } from "../chat/chat.ts";
 import { BaseCommand } from "./BaseCommand.ts";
+import type { IChat } from "../chat/chat.ts";
+import type { AnswerType } from "./types.ts";
 
 export class StartCommand extends BaseCommand {
-  name: string = "start";
-  description: string = "Start the bot";
+  protected name: string = "start";
+  protected description: string = "Start the bot";
   constructor(chatInfo: IChat) {
     super(chatInfo);
   }
