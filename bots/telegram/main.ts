@@ -1,5 +1,5 @@
 import "jsr:@std/dotenv/load";
-import { createCommandsForChatSession } from "../../infrastructure/commands/createCommandsForChatSession.ts";
+import { buildCommandsForSession } from "../../infrastructure/commands/buildCommandsForSession.ts";
 import {
   Bot,
   type Context,
@@ -17,12 +17,15 @@ import {
 } from "https://deno.land/x/grammy_chat_members/mod.ts";
 import type { ChatMember } from "https://deno.land/x/grammy@v1.35.0/types.ts";
 
+// TELEGRAM DATABASE
+// Check if we have an information about the user
+// TODO: implement DATABASE
+// await connectDB()
+
 type CommandMainInfo = {
   command: string;
   description: string;
 };
-
-export type { CommandMainInfo };
 
 // Create an instance of the `Bot` class and pass your bot token to it.
 let bot: Bot<ParseModeFlavor<Context & ChatMembersFlavor>>;
@@ -45,22 +48,14 @@ bot.use(chatMembers(adapter));
 bot.api.config.use(parseMode("MarkdownV2"));
 
 // Setting commands and its descriptions
-const userId = "svetid";
-const userName = "Svet";
-const commands = createCommandsForChatSession({
-  chatId: userId,
-  username: userName,
-  firstName: "Svet",
-  secondName: "Mur",
-  userQuery: null,
-});
+const commands = buildCommandsForSession();
 
 // Set Telegram bot commands
 const commandsPlaceholderWithDescription: CommandMainInfo[] = commands.map((
   command,
 ) => ({
-  command: command.name,
-  description: command.description,
+  command: command.getName(),
+  description: command.getDescription(),
 }));
 
 await bot.api.setMyCommands(commandsPlaceholderWithDescription);
@@ -68,21 +63,23 @@ await bot.api.setMyCommands(commandsPlaceholderWithDescription);
 bot.on("message", async (ctx) => {
   if (!ctx.from || !ctx.message?.text) return;
 
-  // Create commands dynamically per user
-  const userCommands = createCommandsForChatSession({
+  // Build commands dynamically per user interaction
+  const userCommands = buildCommandsForSession({
     chatId: ctx.chat.id.toString(),
     username: ctx.from.username || "",
     firstName: ctx.from.first_name || "",
     secondName: ctx.from.last_name || "",
     userQuery: ctx.message.text,
+    isGroup: ctx.chat.type === "group",
   });
+
+  /* ------ User interaction ------ */
 
   // Find the command that matches the user input
   const userMessage = ctx.message.text.trim();
-  const matchedCommand = userCommands.find((command) => {
-    const regex = new RegExp(`^/${command.name}(?:@\\w+)?\\s*`);
-    return regex.test(userMessage);
-  });
+  const matchedCommand = userCommands.find((command) =>
+    command.isValidCommand(userMessage)
+  );
 
   if (matchedCommand) {
     const reply = await matchedCommand.getReply();

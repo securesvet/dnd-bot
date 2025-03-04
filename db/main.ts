@@ -1,13 +1,19 @@
+import "jsr:@std/dotenv/load";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 
-const client = new Client({
-  user: "postgres",
-  database: "test",
-  hostname: "localhost",
-  port: 5432,
-});
+// Load environment variables (make sure you have a .env file)
+const DATABASE_URL: string = Deno.env.get("DATABASE_URL") ||
+  "postgres://bot_user:yourpassword@localhost:5432/telegram_bot";
 
-await client.connect();
-const result = await client.queryArray("SELECT ID, NAME FROM PEOPLE");
-console.log(result.rows); // [[1, 'Carlos'], [2, 'John'], ...]
-await client.end();
+const client: Client = new Client(DATABASE_URL);
+
+export async function connectDB() {
+  try {
+    await client.connect();
+    console.log("Connected to PostgreSQL");
+  } catch (error) {
+    console.error("Failed to connect to PostgreSQL", error);
+  }
+}
+
+export { client };

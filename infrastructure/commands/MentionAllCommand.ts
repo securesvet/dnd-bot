@@ -1,12 +1,9 @@
 import { BaseCommand } from "./BaseCommand.ts";
+import type { AnswerType } from "./types.ts";
 
 export class MentionAllCommand extends BaseCommand {
-  get name(): string {
-    return "all";
-  }
-  get description(): string {
-    return "Command works in group chats, mention all users";
-  }
+  public name = "all";
+  public description = "Command works in group chats, mention all users";
   getReply(): AnswerType {
     return { text: `@${this.chatInfo.username}` };
   }
