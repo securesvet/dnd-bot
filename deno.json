@@ -2,7 +2,6 @@
   "tasks": {
     "dev": "deno run --watch ./bots/telegram/main.ts",
     "telegram": "deno task --config ./bots/deno.json telegram",
-    "db": "deno run --config ./db/deno.json dev",
     "website": "deno run --config ./website/package.json start",
     "webserver": "deno run --config ./webserver/deno.json dev"
   },
