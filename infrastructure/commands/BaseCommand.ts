@@ -1,9 +1,15 @@
 import type { IChat } from "../chat/chat.ts";
 import type { AnswerType, ICommand } from "./types.ts";
+import type { Database } from "../../db/Database.ts";
 
 export abstract class BaseCommand implements ICommand {
-  constructor(chatInfo: IChat) {
+  constructor({ chatInfo, database }: { chatInfo: IChat; database: Database }) {
     this._chatInfo = chatInfo;
+    this._database = database;
+  }
+  private _database: Database;
+  protected get database(): Database {
+    return this._database;
   }
   private static commandPrefix: string = "/";
   private _arguments: string[] = [];
@@ -14,6 +20,9 @@ export abstract class BaseCommand implements ICommand {
   }
   protected abstract name: string;
   protected abstract description: string;
+  public static getName(): string {
+    return this.name;
+  }
   public getName(): string {
     return this.name;
   }
