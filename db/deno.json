@@ -1,5 +1,8 @@
 {
   "name": "@dndbot/db",
   "version": "0.1.0",
-  "exports": "./main.ts"
+  "exports": "./main.ts",
+  "tasks": {
+    "dev": "deno run -ERN main.ts"
+  }
 }

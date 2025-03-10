@@ -1,5 +1,5 @@
-import type { AnswerType } from "../types.ts";
 import { BaseRollCommand } from "./BaseRollCommand.ts";
+import type { AnswerType } from "../types.ts";
 
 export class RollD20Command extends BaseRollCommand {
   protected name = "rolld20";
