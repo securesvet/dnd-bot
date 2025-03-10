@@ -1,4 +1,3 @@
-import "jsr:@std/dotenv/load";
 import { assertEquals } from "https://deno.land/std@0.214.0/assert/mod.ts";
 import { BaseCommand } from "./BaseCommand.ts";
 import type { AnswerType } from "./types.ts";
