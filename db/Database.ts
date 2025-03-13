@@ -133,11 +133,14 @@ export class Database {
   public async insertNewGroupMembers(
     { group_id, chat_id }: GroupMembersSchema,
   ) {
+    console.log("Trying to insert", group_id, chat_id);
     const groupId = await this.getGroupId(group_id);
     const chatId = await this.getChatId(chat_id);
 
     if (!groupId) throw new Error(`Group with group_id ${group_id} not found.`);
     if (!chatId) throw new Error(`User with chat_id ${chat_id} not found.`);
+    console.log("chatId", chatId);
+    console.log("groupId", groupId);
 
     await this.addUserToGroup(groupId, chatId);
     console.log(`User ${chat_id} added to Group ${group_id}`);
@@ -160,20 +163,15 @@ export class Database {
   }
 
   private async addUserToGroup(groupId: number, chatId: number) {
-    const exists = await this.client.queryObject<{ count: number }>(
-      `SELECT COUNT(*) as count 
-       FROM group_members 
-       WHERE group_id = $1 AND chat_id = $2`,
+    const result = await this.client.queryObject(
+      `INSERT INTO group_members (group_id, chat_id) 
+       VALUES ($1, $2) 
+       ON CONFLICT (group_id, chat_id) DO NOTHING 
+       RETURNING *`, // Returns the inserted row if successful
       [groupId, chatId],
     );
 
-    // Step 2: Insert only if the pair does not exist
-    if (exists.rows[0].count === 0) {
-      await this.client.queryObject(
-        `INSERT INTO group_members (group_id, chat_id) 
-         VALUES ($1, $2)`,
-        [groupId, chatId],
-      );
+    if (result.rows.length > 0) {
       console.log(`User ${chatId} added to group ${groupId}`);
     } else {
       console.log(`User ${chatId} is already in group ${groupId}`);
