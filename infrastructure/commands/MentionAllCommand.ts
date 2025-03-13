@@ -5,6 +5,7 @@ export class MentionAllCommand extends BaseCommand {
   protected name = "all";
   protected description = "Command works in group chats, mention all users";
   async getReply(): Promise<AnswerType> {
+    console.log(this.chatInfo);
     if (!this.chatInfo.groupId) {
       console.error("This command is only available in group chats");
       return { text: "This command is only available in group chats" };

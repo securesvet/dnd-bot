@@ -133,14 +133,11 @@ export class Database {
   public async insertNewGroupMembers(
     { group_id, chat_id }: GroupMembersSchema,
   ) {
-    console.log("Trying to insert", group_id, chat_id);
     const groupId = await this.getGroupId(group_id);
     const chatId = await this.getChatId(chat_id);
 
     if (!groupId) throw new Error(`Group with group_id ${group_id} not found.`);
     if (!chatId) throw new Error(`User with chat_id ${chat_id} not found.`);
-    console.log("chatId", chatId);
-    console.log("groupId", groupId);
 
     await this.addUserToGroup(groupId, chatId);
     console.log(`User ${chat_id} added to Group ${group_id}`);
