@@ -74,7 +74,11 @@ bot.on("message", async (ctx) => {
   if (!ctx.from || !ctx.message?.text) return;
 
   // Build commands dynamically per user interaction
-  const isGroup = ctx.chat.type === "group";
+  const isGroup = ["group", "supergroup", "channel"].includes(ctx.chat.type);
+  console.log(ctx.message.text);
+  console.log(ctx.chatId);
+  console.log(ctx.chat.id);
+  console.log(ctx.chat.type);
   const chatInfo = {
     chatId: ctx.from.id,
     username: ctx.from.username || "",
