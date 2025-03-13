@@ -42,5 +42,5 @@ jobs:
             docker pull ${{ secrets.DOCKERHUB_USERNAME }}/dnd-bot-app:latest
             docker stop dnd-bot-app || true
             docker rm dnd-bot-app || true
-            docker run -d --name dnd-bot-app --env-file /home/${{ secrets.VPS_USER }}/.env ${{ secrets.DOCKERHUB_USERNAME }}/dnd-bot-app:latest
+            docker run -d --network="host" --name dnd-bot-app --env-file /home/${{ secrets.VPS_USER }}/.env ${{ secrets.DOCKERHUB_USERNAME }}/dnd-bot-app:latest
           EOF
