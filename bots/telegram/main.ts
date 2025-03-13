@@ -67,6 +67,9 @@ const commandsPlaceholderWithDescription: CommandMainInfo[] = commands.map((
 
 await bot.api.setMyCommands(commandsPlaceholderWithDescription);
 
+const database = new Database(Deno.env.get("DATABASE_URL") as string);
+await database.init();
+
 bot.on("message", async (ctx) => {
   if (!ctx.from || !ctx.message?.text) return;
 
@@ -81,8 +84,6 @@ bot.on("message", async (ctx) => {
     isGroup: isGroup,
     groupId: isGroup ? ctx.chat.id : undefined,
   };
-  const database = new Database(Deno.env.get("DATABASE_URL") as string);
-  await database.init();
   const userCommands = buildCommandsForSession({ chatInfo, database });
 
   /* ------ Database interaction ------ */
