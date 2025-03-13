@@ -2,5 +2,5 @@
 . "$(dirname -- "$0")/_/hook.sh"
 
 deno fmt
-deno test
+deno test --allow-read --allow-env
 deno lint --allow-import

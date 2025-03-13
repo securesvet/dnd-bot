@@ -5,7 +5,6 @@ import {
   type Context,
   MemorySessionStorage,
 } from "https://deno.land/x/grammy@v1.35.0/mod.ts";
-import { safeApiCall } from "../../helpers/safeApiCall.ts";
 import {
   hydrateReply,
   parseMode,
@@ -16,11 +15,7 @@ import {
   type ChatMembersFlavor,
 } from "https://deno.land/x/grammy_chat_members/mod.ts";
 import type { ChatMember } from "https://deno.land/x/grammy@v1.35.0/types.ts";
-
-// TELEGRAM DATABASE
-// Check if we have an information about the user
-// TODO: implement DATABASE
-// await connectDB()
+import { Database } from "../../db/Database.ts";
 
 type CommandMainInfo = {
   command: string;
@@ -48,7 +43,19 @@ bot.use(chatMembers(adapter));
 bot.api.config.use(parseMode("MarkdownV2"));
 
 // Setting commands and its descriptions
-const commands = buildCommandsForSession();
+const commands = buildCommandsForSession({
+  chatInfo: {
+    chatId: 0,
+    username: "",
+    firstName: "",
+    secondName: "",
+    userQuery: "",
+    isGroup: false,
+  },
+  database: new Database(
+    "postgres://postgres:samplepass@localhost:5432/telegram_bot",
+  ),
+});
 
 // Set Telegram bot commands
 const commandsPlaceholderWithDescription: CommandMainInfo[] = commands.map((
@@ -60,17 +67,50 @@ const commandsPlaceholderWithDescription: CommandMainInfo[] = commands.map((
 
 await bot.api.setMyCommands(commandsPlaceholderWithDescription);
 
+const database = new Database(Deno.env.get("DATABASE_URL") as string);
+await database.init();
+
 bot.on("message", async (ctx) => {
   if (!ctx.from || !ctx.message?.text) return;
 
   // Build commands dynamically per user interaction
-  const userCommands = buildCommandsForSession({
-    chatId: ctx.chat.id.toString(),
+  const isGroup = ctx.chat.type === "group";
+  const chatInfo = {
+    chatId: ctx.from.id,
     username: ctx.from.username || "",
     firstName: ctx.from.first_name || "",
     secondName: ctx.from.last_name || "",
     userQuery: ctx.message.text,
-    isGroup: ctx.chat.type === "group",
+    isGroup: isGroup,
+    groupId: isGroup ? ctx.chat.id : undefined,
+  };
+  const userCommands = buildCommandsForSession({ chatInfo, database });
+
+  /* ------ Database interaction ------ */
+
+  // Check if the user is a new user, insert in a users table
+
+  const isChatNew = await database.isGroupNew(ctx.chat.id);
+  if (isChatNew) {
+    database.insertNewGroup({
+      group_id: ctx.chat.id,
+      group_name: ctx.chat.title || "",
+    });
+  }
+
+  const isUserNew = await database.isUserNew(ctx.from.id);
+  if (isUserNew) {
+    database.insertUser({
+      chat_id: ctx.from.id,
+      username: ctx.from.username || "",
+      first_name: ctx.from.first_name || "",
+      second_name: ctx.from.last_name || "",
+    });
+  }
+
+  database.insertNewGroupMembers({
+    group_id: ctx.chat.id,
+    chat_id: ctx.from.id,
   });
 
   /* ------ User interaction ------ */
@@ -86,18 +126,14 @@ bot.on("message", async (ctx) => {
 
     switch (true) {
       case Boolean(reply.text):
-        await safeApiCall(() =>
-          ctx.replyWithHTML(reply.text as string, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          })
-        );
+        await ctx.replyWithHTML(reply.text as string, {
+          reply_parameters: { message_id: ctx.msg.message_id },
+        });
         break;
       case Boolean(reply.image):
-        await safeApiCall(() =>
-          ctx.replyWithPhoto(reply.image as string, {
-            reply_parameters: { message_id: ctx.msg.message_id },
-          })
-        );
+        await ctx.replyWithPhoto(reply.image as string, {
+          reply_parameters: { message_id: ctx.msg.message_id },
+        });
         break;
       default:
         console.warn("Unknown reply type:", reply);
