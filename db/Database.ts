@@ -181,7 +181,7 @@ export class Database {
   public async getUsersByGroupId(groupId: number): Promise<UsersSchema[]> {
     const primaryId = await this.getGroupId(groupId);
     return (await this.client.queryObject<UsersSchema>(
-      `SELECT * from users u JOIN group_members gm ON u.id = gm.chat_id WHERE gm.group_id = $1`,
+      `SELECT u.* from users u JOIN group_members gm ON u.id = gm.chat_id WHERE gm.group_id = $1`,
       [primaryId],
     )).rows;
   }
