@@ -5,7 +5,7 @@ import { RollCommand } from "./RollCommands/RollCommand.ts";
 import { RollD20Command } from "./RollCommands/RollD20Command.ts";
 import { StartCommand } from "./StartCommand.ts";
 import { MemeCommand } from "./MemeCommand.ts";
-import { MentionAllCommand } from "./MentionAllCommand.ts";
+import { MentionAllCommand } from "./MentionAll/MentionAllCommand.ts";
 import type { IChat } from "../chat/chat.ts";
 import type { Database } from "../../db/Database.ts";
 

@@ -79,6 +79,7 @@ export class Database {
   public async init() {
     await this.initUsers();
     await this.initGroups();
+    await this.initBannedUsers();
   }
   private async initUsers() {
     try {
@@ -114,6 +115,35 @@ export class Database {
     } catch (error) {
       console.error("Error initializing groups table:", error);
     }
+  }
+  private async initBannedUsers() {
+    try {
+      await this.client.queryObject(`
+    CREATE TABLE IF NOT EXISTS banned_members (
+        id SERIAL PRIMARY KEY,
+        chat_id bigint REFERENCES users(id) ON DELETE CASCADE,
+        UNIQUE(chat_id)
+      );
+      `);
+    } catch (error) {
+      console.error("Error initializing banned members table:", error);
+    }
+  }
+  public async getBannedUsers(): Promise<UsersSchema[]> {
+    const data = await this.client.queryObject<UsersSchema>(
+      `SELECT u.* from users u JOIN banned_members bm ON u.id = bm.chat_id`,
+    );
+    return data.rows;
+  }
+  public async isUserBanned(chatId: UsersSchema["chat_id"]): Promise<boolean> {
+    const data = await this.client
+      .queryObject<UsersSchema>(
+        `SELECT u.* FROM users u JOIN banned_members bm ON u.id = bm.chat_id WHERE u.chat_id = $1`,
+        [
+          chatId,
+        ],
+      );
+    return data.rows.length > 0;
   }
   public async isGroupNew(
     groupId: GroupsSchema["group_id"],
