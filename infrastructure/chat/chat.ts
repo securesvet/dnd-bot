@@ -6,10 +6,12 @@ export interface IChat {
   firstName: string;
   secondName: string;
   userQuery: string | null;
+  group?: IGroupChat;
 }
 
 interface IGroupChat {
-  members: IUser[];
+  id: number;
+  title: string;
 }
 
 interface IUser {
