@@ -5,7 +5,7 @@ export class MentionAllCommand extends BaseCommand {
   protected name = "all";
   protected description = "Command works in group chats, mention all users";
   async getReply(): Promise<AnswerType> {
-    if (!this.chatInfo.groupId) {
+    if (!this.chatInfo.group) {
       console.error("This command is only available in group chats");
       return { text: "This command is only available in group chats" };
     }
@@ -14,7 +14,7 @@ export class MentionAllCommand extends BaseCommand {
       console.error("You are banned from using this command");
       return { text: "You are banned from using this command" };
     }
-    const users = await this.database.getUsersByGroupId(this.chatInfo.groupId);
+    const users = await this.database.getUsersByGroupId(this.chatInfo.group.id);
     if (users === undefined) {
       console.error("No users found");
       return { text: "No users found in this chat" };
