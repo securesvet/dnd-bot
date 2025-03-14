@@ -1,6 +1,5 @@
 export interface IChat {
   chatId: number;
-  groupId?: number;
   isGroup: boolean;
   username: string;
   firstName: string;

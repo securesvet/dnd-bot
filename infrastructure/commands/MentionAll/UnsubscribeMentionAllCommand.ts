@@ -6,12 +6,11 @@ export class MentionAllCommand extends BaseCommand {
   protected description =
     "Command works in group chats. Do not mention when /all is used";
   async getReply(): Promise<AnswerType> {
-    if (!this.chatInfo.groupId) {
+    if (!this.chatInfo.group) {
       console.error("This command is only available in group chats");
       return { text: "This command is only available in group chats" };
     }
-    console.log(this.chatInfo.groupId);
-    const users = await this.database.getUsersByGroupId(this.chatInfo.groupId);
+    const users = await this.database.getUsersByGroupId(this.chatInfo.group.id);
     console.log(users);
     if (users === undefined) {
       console.error("No users found");

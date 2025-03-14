@@ -33,6 +33,7 @@ export class Database {
   }
 
   public async onEveryMessage(chatInfo: IChat) {
+    console.log(chatInfo);
     if (chatInfo.group) {
       const isGroupNew = await this.isGroupNew(chatInfo.group.id);
       if (isGroupNew) {
@@ -54,6 +55,8 @@ export class Database {
     }
 
     if (chatInfo.group) {
+      console.log("Inserting new group members");
+      console.log(chatInfo.group.id, chatInfo.chatId);
       this.insertNewGroupMembers({
         group_id: chatInfo.group.id,
         chat_id: chatInfo.chatId,
@@ -236,10 +239,9 @@ export class Database {
   }
 
   public async getUsersByGroupId(groupId: number): Promise<UsersSchema[]> {
-    const primaryId = await this.getGroupId(groupId);
     return (await this.client.queryObject<UsersSchema>(
-      `SELECT u.* from users u JOIN group_members gm ON u.id = gm.chat_id WHERE gm.group_id = $1`,
-      [primaryId],
+      `SELECT u.* from users u JOIN group_members gm ON u.id = gm.chat_id JOIN groups g ON gm.group_id = g.id WHERE g.group_id = $1`,
+      [groupId],
     )).rows;
   }
   public async inserMemberToGroupMembers(

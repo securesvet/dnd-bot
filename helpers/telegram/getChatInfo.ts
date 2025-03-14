@@ -12,6 +12,11 @@ export function getChatInfo(ctx: any): IChat | undefined {
     secondName: ctx.from.last_name || "",
     userQuery: ctx.message.text,
     isGroup: isGroup,
-    groupId: isGroup ? ctx.chat.id : undefined,
+    group: isGroup
+      ? {
+        id: ctx.chat.id,
+        title: ctx.chat.title,
+      }
+      : undefined,
   };
 }
