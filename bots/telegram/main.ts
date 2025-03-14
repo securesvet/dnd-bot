@@ -16,6 +16,7 @@ import {
 } from "https://deno.land/x/grammy_chat_members/mod.ts";
 import type { ChatMember } from "https://deno.land/x/grammy@v1.35.0/types.ts";
 import { Database } from "../../db/Database.ts";
+import { getChatInfo } from "../../helpers/telegram/getChatInfo.ts";
 
 type CommandMainInfo = {
   command: string;
@@ -70,52 +71,19 @@ await bot.api.setMyCommands(commandsPlaceholderWithDescription);
 const database = new Database(Deno.env.get("DATABASE_URL") as string);
 await database.init();
 
-bot.on("message", async (ctx) => {
+bot.on("msg:text", async (ctx) => {
   if (!ctx.from || !ctx.message?.text) return;
 
   // Build commands dynamically per user interaction
-  const isGroup = ["group", "supergroup", "channel"].includes(ctx.chat.type);
-  console.log(ctx.message.text);
-  console.log(ctx.chatId);
-  console.log(ctx.chat.id);
-  console.log(ctx.chat.type);
-  const chatInfo = {
-    chatId: ctx.from.id,
-    username: ctx.from.username || "",
-    firstName: ctx.from.first_name || "",
-    secondName: ctx.from.last_name || "",
-    userQuery: ctx.message.text,
-    isGroup: isGroup,
-    groupId: isGroup ? ctx.chat.id : undefined,
-  };
+  const chatInfo = getChatInfo(ctx);
+
+  if (!chatInfo) return;
+
   const userCommands = buildCommandsForSession({ chatInfo, database });
 
   /* ------ Database interaction ------ */
 
-  // Check if the user is a new user, insert in a users table
-
-  const isChatNew = await database.isGroupNew(ctx.chat.id);
-  if (isChatNew) {
-    database.insertNewGroup({
-      group_id: ctx.chat.id,
-      group_name: ctx.chat.title || "",
-    });
-  }
-
-  const isUserNew = await database.isUserNew(ctx.from.id);
-  if (isUserNew) {
-    database.insertUser({
-      chat_id: ctx.from.id,
-      username: ctx.from.username || "",
-      first_name: ctx.from.first_name || "",
-      second_name: ctx.from.last_name || "",
-    });
-  }
-
-  database.insertNewGroupMembers({
-    group_id: ctx.chat.id,
-    chat_id: ctx.from.id,
-  });
+  await database.onEveryMessage(chatInfo);
 
   /* ------ User interaction ------ */
 
@@ -145,10 +113,18 @@ bot.on("message", async (ctx) => {
   }
 });
 
+bot.on(":voice", (ctx) => {
+  if (!ctx.message) return;
+
+  ctx.reply("Audio received", {
+    reply_parameters: { message_id: ctx.msg.message_id },
+  });
+});
+
 bot.catch((err) => {
   console.error("Bot error:", err);
 });
 
 bot.start({
-  allowed_updates: ["message", "chat_member"],
+  allowed_updates: ["message", "chat_member", "channel_post"],
 });

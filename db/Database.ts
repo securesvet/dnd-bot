@@ -1,6 +1,7 @@
 import "jsr:@std/dotenv/load";
 import { Client } from "https://deno.land/x/postgres@v0.17.0/mod.ts";
 import type { QueryObjectResult } from "https://deno.land/x/postgres@v0.17.0/query/query.ts";
+import type { IChat } from "../infrastructure/chat/chat.ts";
 
 export type UsersSchema = {
   chat_id: number;
@@ -29,6 +30,35 @@ export class Database {
   private _isConnected: boolean = false;
   public get isConnected(): boolean {
     return this._isConnected;
+  }
+
+  public async onEveryMessage(chatInfo: IChat) {
+    if (chatInfo.group) {
+      const isGroupNew = await this.isGroupNew(chatInfo.group.id);
+      if (isGroupNew) {
+        this.insertNewGroup({
+          group_id: chatInfo.group.id,
+          group_name: chatInfo.group.title,
+        });
+      }
+    }
+
+    const isUserNew = await this.isUserNew(chatInfo.chatId);
+    if (isUserNew) {
+      this.insertUser({
+        chat_id: chatInfo.chatId,
+        username: chatInfo.username,
+        first_name: chatInfo.firstName || "",
+        second_name: chatInfo.secondName || "",
+      });
+    }
+
+    if (chatInfo.group) {
+      this.insertNewGroupMembers({
+        group_id: chatInfo.group.id,
+        chat_id: chatInfo.chatId,
+      });
+    }
   }
   async insertUser(userInfo: UsersSchema): Promise<void> {
     await this.client.queryObject(
