@@ -83,7 +83,7 @@ bot.on("msg:text", async (ctx) => {
 
   /* ------ Database interaction ------ */
 
-  await database.onEveryMessage(chatInfo);
+  // await database.onEveryMessage(chatInfo);
 
   /* ------ User interaction ------ */
 
