@@ -116,9 +116,10 @@ bot.on("msg:text", async (ctx) => {
 bot.on(":voice", (ctx) => {
   if (!ctx.message) return;
 
-  ctx.reply("Audio received", {
-    reply_parameters: { message_id: ctx.msg.message_id },
-  });
+  // TODO: Implement audio processing
+  // ctx.reply("Audio received", {
+  //   reply_parameters: { message_id: ctx.msg.message_id },
+  // });
 });
 
 bot.catch((err) => {
